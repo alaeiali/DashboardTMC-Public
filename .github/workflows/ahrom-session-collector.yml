@@ -1,0 +1,38 @@
+name: Ahrom full-session TSETMC collector
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ahrom-tsetmc-session-collector
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: windows-latest
+    timeout-minutes: 275
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Collect Ahrom session data (08:45-12:45 Tehran)
+        shell: pwsh
+        run: |
+          python -u tests/tsetmc_session_collector.py
+
+      - name: Upload session data
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tsetmc-ahrom-session
+          path: reports/ahrom_session_*/
+          if-no-files-found: warn
+          retention-days: 3
