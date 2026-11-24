@@ -17,10 +17,14 @@ import time
 import urllib.error
 import urllib.request
 from pathlib import Path
-from zoneinfo import ZoneInfo
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 INS_CODE = os.getenv("INS_CODE", "17914401175772326")
-TZ = ZoneInfo("Asia/Tehran")
+try:
+    TZ = ZoneInfo("Asia/Tehran")
+except ZoneInfoNotFoundError:
+    # Windows runners may not ship the IANA database; Iran uses UTC+03:30 year-round.
+    TZ = dt.timezone(dt.timedelta(hours=3, minutes=30), name="Asia/Tehran")
 START_TIME = dt.time(8, 45)
 CONTINUOUS_END = dt.time(12, 30)
 END_TIME = dt.time(12, 45)
