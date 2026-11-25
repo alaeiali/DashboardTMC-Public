@@ -2,6 +2,9 @@ name: Ahrom full-session TSETMC collector
 
 on:
   workflow_dispatch:
+  # 08:40 Asia/Tehran = 05:10 UTC; Saturday through Wednesday (Iran workweek).
+  schedule:
+    - cron: '10 5 * * 0-3,6'
 
 permissions:
   contents: read
