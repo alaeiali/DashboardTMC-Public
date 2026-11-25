@@ -26,7 +26,7 @@ jobs:
         shell: pwsh
         run: |
           $run = 'true'
-          if (${{ github.event_name == 'schedule' && 'true' || 'false' }} -eq 'true') {
+          if ('${{ github.event_name }}' -eq 'schedule') {
             # The scheduled trigger is at 05:10 UTC (08:40 Tehran), so the UTC
             # calendar date matches the Tehran calendar date for this run.
             $today = [DateTime]::UtcNow.ToString('yyyy-MM-dd')
