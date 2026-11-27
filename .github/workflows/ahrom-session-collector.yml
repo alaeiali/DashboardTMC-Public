@@ -21,7 +21,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Check scheduled date window (2026-11-07 to 2026-12-02 Tehran)
+      - name: Check scheduled date window (2026-11-28 to 2026-12-02 Tehran)
         id: date-window
         shell: pwsh
         run: |
@@ -30,7 +30,7 @@ jobs:
             # The scheduled trigger is at 05:10 UTC (08:40 Tehran), so the UTC
             # calendar date matches the Tehran calendar date for this run.
             $today = [DateTime]::UtcNow.ToString('yyyy-MM-dd')
-            if ($today -lt '2026-11-07' -or $today -gt '2026-12-02') {
+            if ($today -lt '2026-11-28' -or $today -gt '2026-12-02') {
               $run = 'false'
               Write-Host "Outside temporary collection window: $today"
             }
